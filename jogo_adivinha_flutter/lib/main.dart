@@ -26,23 +26,38 @@ class _CalculadoraState extends State<Calculadora> {
   int numeroSorteado = Random().nextInt(100);
 
   void _adivinhar() {
-    int? numero = int.tryParse(_controllerNumero1.text);
+  int? numero = int.tryParse(_controllerNumero1.text);
 
-    setState(() {
-      _contador++;
-      if (numero != null) {
-        if (numero == numeroSorteado) {
-          _resultado = 'Parabéns! Você adivinhou o número $numeroSorteado!';
-        } else if (numero < numeroSorteado) {
-          _resultado = 'Tente um número maior.';
-        } else {
-          _resultado = 'Tente um número menor.';
-        }
+  setState(() {
+    _contador++;
+    if (_contador == 10) {
+      _resultado = 'Você é Burro ! Errou o número 10 vezes !';
+    } else if (numero != null) {
+      if (numero == numeroSorteado) {
+        _resultado = 'Parabéns! Você adivinhou o número $numeroSorteado!';
+      } else if (numero < numeroSorteado) {
+        _resultado = 'Tente um número maior.';
       } else {
-        _resultado = 'Por favor, digite um número válido.';
+        _resultado = 'Tente um número menor.';
       }
-    });
-  }
+    } else {
+      _resultado = 'Por favor, digite um número válido.';
+    }
+    void _reiniciarJogo() {
+  setState(() {
+    numeroSorteado = Random().nextInt(100);
+    _controllerNumero1.clear();
+    _resultado = '';
+    _contador = 0; // Reinicia o contador de jogadas
+    if (_resultado.isNotEmpty && _resultado.startsWith('Parabéns'))
+              ElevatedButton(
+                onPressed: () => _reiniciarJogo(),
+                child: Text('Reiniciar Jogo'),
+              );
+  });
+}
+  });
+}
 
   void _reiniciarJogo() {
   setState(() {
