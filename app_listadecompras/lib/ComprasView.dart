@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'ComprasController.dart';
 
-class ComprasScreen extends StatelessWidget {
+class ComprasScreen extends StatefulWidget {
+  @override
+  _ComprasScreenState createState() => _ComprasScreenState();
+}
+
+class _ComprasScreenState extends State<ComprasScreen> {
+  TextEditingController _descricaoController = TextEditingController();
+  List<String> _compras = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,90 +19,42 @@ class ComprasScreen extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Consumer<ComprasController>(
-              builder: (context, comprasController, child) {
-                return TextField(
-                  onChanged: (text) {
-                    // Atualiza a descrição na ComprasController
-                    comprasController.descricao = text;
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "Nova Compra",
-                    suffixIcon: IconButton(
-                      onPressed: (){
-                        // Adiciona a compra com a nova descrição
-                        comprasController.adicionarCompra(comprasController.descricao);
-                        // Limpa o campo de texto
-                        comprasController.descricao = '';
-                      },
-                      icon: Icon(Icons.add),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _descricaoController,
+                    onChanged: (text) {
+                      // Atualiza a descrição
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Nova Compra",
                     ),
                   ),
-                );
-              },
+                ),
+                IconButton(
+                  onPressed: () {
+                    _adicionarCompra(_descricaoController.text);
+                    _descricaoController.clear();
+                  },
+                  icon: Icon(Icons.add),
+                ),
+              ],
             ),
           ),
           Expanded(
-            child: Consumer<ComprasController>(
-              builder: (context, comprasController, child) {
-                return ListView.builder(
-                  itemCount: comprasController.compras.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(comprasController.compras[index].nome ?? ''),
-                      subtitle: Text(comprasController.compras[index].descricao ?? ''),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: (){
-                          comprasController.removerCompra(index);
-                        },
-                      ),
-                      onLongPress: (){
-                        comprasController.excluirCompra(index);
-                      },
-                      leading: IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: (){
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Atualizar Compra"),
-                                content: TextField(
-                                  onChanged: (text) {
-                                    // Atualiza a descrição na ComprasController
-                                    comprasController.descricao = text;
-                                  },
-                                  controller: TextEditingController(text: comprasController.compras[index].descricao),
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Nova Compra",
-                                    suffixIcon: IconButton(
-                                      onPressed: (){
-                                        // Atualiza a compra com a nova descrição
-                                        comprasController.atualizarCompra(index, comprasController.descricao);
-                                        Navigator.of(context).pop();
-                                      },
-                                      icon: Icon(Icons.save),
-                                    ),
-                                  ),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: Text("Cancelar"),
-                                    onPressed: (){
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  },
+            child: ListView.builder(
+              itemCount: _compras.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_compras[index]),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      _removerCompra(index);
+                    },
+                  ),
                 );
               },
             ),
@@ -104,5 +62,19 @@ class ComprasScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _adicionarCompra(String descricao) {
+    if (descricao.trim().isNotEmpty) {
+      setState(() {
+        _compras.add(descricao.trim());
+      });
+    }
+  }
+
+  void _removerCompra(int index) {
+    setState(() {
+      _compras.removeAt(index);
+    });
   }
 }

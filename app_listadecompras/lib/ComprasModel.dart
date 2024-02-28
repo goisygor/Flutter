@@ -6,5 +6,6 @@ class ComprasModel {
 
   //Construtor da classe
   ComprasModel(this.descricao, this.concluida, );
+
   
 }

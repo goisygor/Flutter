@@ -19,6 +19,6 @@ class ComprasApp extends StatelessWidget {
   }
 }
 
-ComprasView() {
+Widget ComprasView() {
+  return ComprasView(); // Você pode substituir Container() pelo widget desejado
 }
-

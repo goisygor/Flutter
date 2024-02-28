@@ -1,44 +1,29 @@
+import 'package:app_listadecompras/ComprasModel.dart';
 import 'package:flutter/material.dart';
-
-class Compra {
-  String descricao;
-  bool concluida;
-
-  Compra(this.descricao, this.concluida);
-
-  String? get nome => descricao;
-}
 
 class ComprasController extends ChangeNotifier {
   late BuildContext context;
-  List<Compra> _compras = [];
+  List<ComprasModel> _compras = [];
 
-  ComprasController(this.context);
+  ComprasController(BuildContext context);
 
-  List<Compra> get compras => _compras;
+  List<ComprasModel> get compras => _compras;
 
-  String _descricao = '';
-  String get descricao => _descricao;
-
-  String get nome => '';
-
-  set descricao(String descricao) {
-    _descricao = descricao;
-  }
+  set descricao(String descricao) {}
 
   void addCompra(String descricao) {
     if (descricao.trim().isNotEmpty) {
       bool compraExistente = _compras.any((compra) => compra.descricao == descricao);
 
       if (compraExistente) {
-        showAlertExist(context);
+        _showAlert(context, 'Atenção', 'Já existe uma compra com essa descrição');
       } else {
-        _compras.add(Compra(descricao.trim(), false));
+        _compras.add(ComprasModel(descricao.trim(), false));
         notifyListeners();
-        showAlertSucesso(context);
+        _showAlert(context, 'Sucesso', 'Compra adicionada com sucesso');
       }
     } else {
-      showAlert(context, 'Atenção', 'Insira uma descrição para a compra');
+      _showAlert(context, 'Atenção', 'Insira uma descrição para a compra');
     }
   }
 
@@ -60,11 +45,11 @@ class ComprasController extends ChangeNotifier {
     if (indice >= 0 && indice < _compras.length) {
       _compras[indice].descricao = novaDescricao;
       notifyListeners();
-      showAlert(context, 'Atenção', 'Compra atualizada com sucesso');
+      _showAlert(context, 'Atenção', 'Compra atualizada com sucesso');
     }
   }
 
-  void showAlert(BuildContext context, String titulo, String conteudo) {
+  void _showAlert(BuildContext context, String titulo, String conteudo) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -84,15 +69,14 @@ class ComprasController extends ChangeNotifier {
     );
   }
 
-  void showAlertSucesso(BuildContext context) {
-    showAlert(context, 'Sucesso', 'Compra adicionada com sucesso');
+  void removerCompra(int index) {
+    if (index >= 0 && index < _compras.length) {
+      _compras.removeAt(index);
+      notifyListeners();
+    }
   }
 
-  void showAlertExist(BuildContext context) {
-    showAlert(context, 'Atenção', 'Já existe uma compra com essa descrição');
+  void adicionarCompra(String descricao) {
+    addCompra(descricao);
   }
-
-  void removerCompra(int index) {}
-
-  void adicionarCompra(String descricao) {}
 }
