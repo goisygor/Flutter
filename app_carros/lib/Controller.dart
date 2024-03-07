@@ -1,14 +1,17 @@
 import 'package:app_carros/Model.dart';
+import 'package:flutter/material.dart';
 
-class CarrosController {
-  List<Carros> _carrosLista = [];
+class CarroController extends ChangeNotifier {
+  //atributo
+  List<Carro> _carrosLista = [];
 
   //métodos
-  List<Carros> get listarCarros => _carrosLista;
+  List<Carro> get listarCarros => _carrosLista;
 
-  // outros métodos
-  void adicionarCarros(String modelo, int ano, String imagemUrl) {
-    Carros carro = Carros (modelo, ano, imagemUrl);
+  //outros métodos
+  void adicionarCarro(String modelo, int ano, String imagemUrl) {
+    Carro carro = Carro(modelo, ano, imagemUrl);
     _carrosLista.add(carro);
+    notifyListeners();
   }
 }

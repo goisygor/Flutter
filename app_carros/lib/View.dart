@@ -1,11 +1,18 @@
+import 'dart:async';
+import 'dart:js';
+
 import 'package:app_carros/Controller.dart';
 import 'package:app_carros/Model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TelaListaCarros extends StatelessWidget {
-  late final CarrosController controllerCarros;
+
+  final CarroController controllerCarros;
   TelaListaCarros(this.controllerCarros);
+  
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,43 +24,61 @@ class TelaListaCarros extends StatelessWidget {
       // Corpo principal do aplicativo
       body: Column(
         children: [
+          // Lista de Carros
           Expanded(
-            child:/// Consumer<CarrosController>(
+            child: 
+            //Consumer<CarroController>(
               //builder: (context, model, child) {
                 //return 
-                ListView.builder(
+                  ListView.builder(
                   itemCount: controllerCarros.listarCarros.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      // Exibi os carros listados no Controller
+                      // Exibição do nome do carro
                       title: Text(controllerCarros.listarCarros[index].modelo),
-
-                      // Quando clicado o carro vai abrir a telaDetalhes
+                      // Exclui a tarefa ao manter pressionado
                       onTap: () {
+                        // Chamando a outra tela
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                TelaDetalheCarro(controllerCarros.listarCarros[index]),
-                          ),
+                          MaterialPageRoute(builder: (context) => TelaDetalheCarro(controllerCarros.listarCarros[index])),
                         );
-                        // Criar método para trocar a tela
+                        
                       },
                     );
                   },
-                )
-             // },
-           // ),
+                ),
+            //   },
+            // ),
           ),
         ],
       ),
+      //adicionar um botao FloaytButton
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          _adiconarCarro();
+        },
+        child: Icon(Icons.add),
+    )
     );
   }
+  void _adiconarCarro() {
+    showDialog(context: context, builder: builder)
+    
+    
+   .then((value) {
+        if (value == true) {
+          controllerCarros.adicionarCarro();
+        }
+      });
+
+}
 }
 
 class TelaDetalheCarro extends StatelessWidget {
-  final Carros carro;
+  final Carro carro;
   TelaDetalheCarro(this.carro);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

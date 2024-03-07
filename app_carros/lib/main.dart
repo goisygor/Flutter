@@ -1,26 +1,22 @@
 import 'package:app_carros/Controller.dart';
 import 'package:app_carros/View.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  
-
-
-  // This widget is the root of your application.
+  final CarroController controllerCarro = CarroController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Os Carros",
+      title: 'Gerenciador de Carros',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TelaListaCarros(controllerCarros),  
+      home: TelaListaCarros(controllerCarro),
     );
   }
-  }
+}
