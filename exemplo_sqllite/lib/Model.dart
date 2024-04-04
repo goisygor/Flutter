@@ -2,7 +2,7 @@
 // o Model é o mue modelo de negocio
 // é aqui que vou modelar e vou ter as informações para armazenar
 
-                        //Lista De Contatos //
+//Lista De Contatos //
 
 class ContatoModel {
   // atributos
@@ -19,7 +19,29 @@ class ContatoModel {
     required this.Email,
     required this.Telefone,
     required this.Endereco,
- });
+  });
 
- // mapeamento me permite atribuir um valor
-}
+  // mapeamento me permite atribuir um valor para a coluna e depois para o atributo
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nome': nome,
+      'email': Email,
+      'telefone': Telefone,
+      'endereco': Endereco,
+    };
+  }
+
+  //método para retornar do atributos para a coluna p
+  factory ContatoModel.fromMap(Map<String, dynamic> map) {
+    return ContatoModel(
+      id: map['id'],
+      nome: map['nome'],
+      Email: map['email'],
+      Telefone: map['telefone'],
+      Endereco: map['endereco'],
+    );
+  }
+    }
+  
+

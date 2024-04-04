@@ -1,5 +1,6 @@
 // vai ter minha classe banco de dados
 // montar a estrutura para o banco de dados (CRUD)
+// ELE É UM BANCO DE DADOS INBUTIDO
 
 import 'package:exemplo_sqllite/Model.dart';
 import 'package:path/path.dart';
@@ -10,16 +11,14 @@ class BancoDadosCrud {
   static const String TABLE_NOME = 'contacts'; // Nome da tabela
   static const String
       CREATE_CONTACTS_TABLE_SCRIPT = // Script SQL para criar a tabela
-      "CREATE TABLE contacts(id INTEGER PRIMARY KEY," +
+      "CREATE TABLE IF NOT EXISTS contacts(id INTEGER PRIMARY KEY," +
           "nome TEXT, email TEXT, telefone TEXT," +
           "endereco TEXT)";
 
-
- 
-  Future<Database> _getDatabase() async { // (_) é um metodo privado
+  Future<Database> _getDatabase() async {
+    // (_) é um metodo privado (ELE VAI ESTABELECER UMA CONEXÃO E VAI RETORNAR ALGUMA COISA ASYNC)
     return openDatabase(
-      join(
-          await getDatabasesPath(), DB_NOME), // Caminho do banco de dados
+      join(await getDatabasesPath(), DB_NOME), // Caminho do banco de dados
       onCreate: (db, version) {
         return db.execute(
             CREATE_CONTACTS_TABLE_SCRIPT); // Executa o script de criação da tabela quando o banco é criado
@@ -27,6 +26,7 @@ class BancoDadosCrud {
       version: 1,
     );
   }
+
   // Método para criar um novo contato no banco de dados
   Future<void> create(ContatoModel model) async {
     try {
@@ -39,14 +39,12 @@ class BancoDadosCrud {
     }
   }
 
-
   // Método para obter todos os contatos do banco de dados
   Future<List<ContatoModel>> getContacts() async {
     try {
       final Database db = await _getDatabase();
       final List<Map<String, dynamic>> maps =
           await db.query(TABLE_NOME); // Consulta todos os contatos na tabela
-
 
       return List.generate(
         maps.length,
@@ -60,7 +58,6 @@ class BancoDadosCrud {
       return [];
     }
   }
-
 
   // Método para atualizar um contato no banco de dados
   Future<void> update(ContatoModel model) async {
@@ -78,7 +75,6 @@ class BancoDadosCrud {
     }
   }
 
-
   // Método para excluir um contato do banco de dados
   Future<void> delete(int id) async {
     try {
@@ -94,4 +90,3 @@ class BancoDadosCrud {
     }
   }
 }
-
