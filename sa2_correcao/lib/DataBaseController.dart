@@ -43,7 +43,8 @@ class BancoDadosCrud {
           await db.query(TABLE_NOME,
           where: 'email = ? AND senha = ?',
           whereArgs: [email,senha]
-          ); // Consulta todos os contatos na tabela
+          ); 
+          // Consulta todos os contatos na tabela
 
       if (maps.isNotEmpty){
         return User.fromMap(maps.first);
