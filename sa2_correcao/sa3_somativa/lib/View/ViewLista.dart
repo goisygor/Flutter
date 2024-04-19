@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Classe que representa a página principal da lista de tarefas
 class PaginaLista extends StatelessWidget {
+  String user;
+    PaginaLista({required this.user});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,13 +12,15 @@ class PaginaLista extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TaskListScreen(), // Inicializa a tela da lista de tarefas
+      home: TaskListScreen(user: user), // Inicializa a tela da lista de tarefas
     );
   }
 }
 
 // Classe que representa a tela da lista de tarefas (Stateful)
 class TaskListScreen extends StatefulWidget {
+  String user;
+  TaskListScreen({required this.user});
   @override
   _TaskListScreenState createState() => _TaskListScreenState();
 }
@@ -275,14 +279,14 @@ class _TaskListScreenState extends State<TaskListScreen> {
   // Função para salvar as tarefas no armazenamento local
   Future<void> _saveTasks() async {
     await _prefs.setStringList(
-        'tasks', _tasks.map((task) => task.description).toList());
+        'tasks${widget.user}', _tasks.map((task) => task.description).toList());
   }
 
   // Função para carregar as tarefas do armazenamento local
   Future<void> _loadTasks() async {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
-      _tasks = (_prefs.getStringList('tasks') ?? [])
+      _tasks = (_prefs.getStringList('tasks${widget.user}') ?? [])
           .map((task) => Task(description: task))
           .toList();
     });
@@ -295,10 +299,4 @@ class Task {
   bool completed;
 
   Task({required this.description, this.completed = false});
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: PaginaLista(),
-  ));
 }

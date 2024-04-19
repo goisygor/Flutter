@@ -88,7 +88,7 @@ class _PaginaLoginState extends State<PaginaLogin> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => PaginaLista()));
+                                      builder: (context) => PaginaLista(user:email)));
                             } else {
                               // Se o usuário não existe, exiba uma mensagem
                               ScaffoldMessenger.of(context).showSnackBar(
