@@ -34,7 +34,7 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                     SizedBox(height: 20),
                     CircleAvatar(
                       radius: 50.0,
-                     //backgroundImage: AssetImage('.icone.webp'),
+                     backgroundImage: AssetImage('images/icone.png'),
                     ),
                     SizedBox(height: 20),
                     TextField(
