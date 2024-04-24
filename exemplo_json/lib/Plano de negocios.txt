@@ -1,0 +1,4 @@
+- Home page() = > lista de produto view
+    -adicionar novos produtos
+    -modelo(Produtos) model
+    -controller(Produtos) controller

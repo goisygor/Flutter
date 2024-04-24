@@ -1,0 +1,21 @@
+[
+    
+    {
+        "nome":"CPU",
+        "preco":599.90,
+        "categoria":"informática"
+
+    },
+
+    {
+        "nome":"Camiseta Windows",
+        "preco":14.90,
+        "categoria":"vesturário"
+    },
+    {
+        "nome":"Mouse Pad",
+        "preco":80.50,
+        "categoria":"Acessórios"
+    }
+   
+]
