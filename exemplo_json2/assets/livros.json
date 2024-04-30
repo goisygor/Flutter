@@ -5,19 +5,22 @@
         "autor": "Isaac Asimov",
         "sinopse": "O Fim da eternidade é um livro de ficção científica escrito por Isaac Asimov, publicado em 1955.",
         "categoria": "Ficção Científica",
-        "isbn": 9788521603015
+        "isbn": 9788521603015,
+        "capa":"assets/img/image.png"
     },{
         "titulo": "O Morro dos Ventos Uivantes",
         "autor":"Emily Bronte",
         "sinopse": "O Morro dos Ventos Uivantes é um livro de Terror ",
         "categoria": "Terror",
-        "isbn": 9788521603025
+        "isbn": 9788521603025,
+        "capa":"assets/img/image2.png"
     },
     {
         "titulo":"Mémoria Póstumas de brás Cubas",
         "autor":"Machado de Assis",
         "sinopse":"Mémoria Póstumas de brás Cubas é um livro de Romance Moderno ",
         "categoria":"Romance Realista",
-        "isbn":9788521603035
+        "isbn":9788521603035,
+        "capa":"assets/img/image3.png"
     }
 ]

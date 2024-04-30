@@ -14,9 +14,10 @@ class LivroInfoPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
+        child: Expanded(
             child: Column(
           children: [
+            Image.asset(info.capa),
             Text(info.titulo),
             Text(info.autor),
             Text(info.sinopse),
