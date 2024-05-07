@@ -1,4 +1,4 @@
-// placa,
+//placa,
 //modelo,
 //marca,
 //ano,
@@ -17,23 +17,22 @@ class Carro {
   final String descricao;
   final String foto;
   final double valor;
-
   //construtor
+  Carro(
+      {required this.placa,
+      required this.modelo,
+      required this.marca,
+      required this.ano,
+      required this.cor,
+      required this.descricao,
+      required this.foto,
+      required this.valor});
 
-  Carro(this.placa, 
-  this.modelo, 
-  this.marca, 
-  this.ano, 
-  this.cor, 
-  this.descricao,
-  this.foto,
-  this.valor);
-
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     return {
       'placa': placa,
-     'modelo': modelo,
-     'marca': marca,
+      'modelo': modelo,
+      'marca': marca,
       'ano': ano,
       'cor': cor,
       'descricao': descricao,
@@ -41,17 +40,16 @@ class Carro {
       'valor': valor,
     };
   }
-  // métodos void nao retornada nada, métodos return ele me retorna o MAPEAMENTO 
-  factory Carro.fromJson(Map<String, dynamic> map){
+  factory Carro.fromJson(Map<String,dynamic> map) {
     return Carro(
-      map['placa'],
-      map['modelo'],
-      map['marca'],
-      map['ano'],
-      map['cor'],
-      map['descricao'],
-      map['foto'],
-      map['valor'],
+      placa: map['placa'],
+      modelo: map['modelo'],
+      marca: map['marca'],
+      ano: map['ano'],
+      cor: map['cor'],
+      descricao: map['descricao'],
+      foto: map['foto'],
+      valor: map['valor'],
     );
   }
 }
