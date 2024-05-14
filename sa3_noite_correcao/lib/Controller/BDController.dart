@@ -1,3 +1,5 @@
+import 'dart:indexed_db';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -96,4 +98,6 @@ class BancoDadosCrud {
       return emailExistente;
     }
   }
+  
+  Future<dynamic> openDatabase(join, {required Function(dynamic db, dynamic version) onCreate, required int version}) {}
 }
