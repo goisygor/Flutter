@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'service.dart';
 
 class WeatherScreen extends StatefulWidget {
@@ -21,7 +22,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     super.initState();
-  }
+    _weatherData = new Map<String,dynamic>();
+      }
+
 
   Future<void> _fetchWeatherData(String city) async {
     try {
@@ -34,48 +37,54 @@ class _WeatherScreenState extends State<WeatherScreen> {
     }
   }
 
+  Future<void> _fetchWeatherLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      final weatherData = await _weatherService.getWeatherByLocation(
+          position.latitude, position.longitude);
+      setState(() {
+        _weatherData = weatherData;
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+          appBar: AppBar(title: const Text("Exemplo Weather-API")),
+          body: Padding(
+              padding: EdgeInsets.all(12),
+              child: FutureBuilder(
+                  future: _fetchWeatherLocation(),
+                  builder: (context, snapshot) {
+                    if (_weatherData.isEmpty) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('City: ${_weatherData['name']}'),
+                            // Exibe o nome da cidade.
+                            Text(
+                                'Temperature: ${_weatherData['main']['temp'].toInt - 273} °C'),
+                            // Exibe a temperatura em graus Celsius.
+                            Text(
+                                'Description: ${_weatherData['weather'][0]['description']}'),
+                            // Exibe a descrição do clima.
+                          ],
+                        ),
+                      );
+                    }
+                  })));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Exemplo Weather-API")),
-      body: Padding(
-        padding: EdgeInsets.all(12),
-        child: Center(
-          child: Form(
-            key: formKey,
-            child: Column(children: [
-              TextFormField(
-                controller: _cityController,
-                decoration: const InputDecoration(labelText: "Digite a Cidade"),
-                validator: (value) {
-                  if (value!.trim().isEmpty) {
-                    return "Insira a Cidade";
-                  }
-                  return null;
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    _fetchWeatherData(_cityController.text);
-                  }
-                },
-                child: const Text("Buscar"),
-              ),
-              //mostrar informações
-              if (_weatherData.containsKey('main'))
-                Column(
-                  children: [
-                    Text(
-                      "Temperatura: ${_weatherData['main']['temp'] - 273} °C ",
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
-            ]),
-          ),
-        ),
-      ),
-    );
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }
