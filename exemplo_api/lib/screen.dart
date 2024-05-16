@@ -40,7 +40,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Future<void> _fetchWeatherLocation() async {
     try {
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+          desiredAccuracy: LocationAccuracy.high
+          );
       final weatherData = await _weatherService.getWeatherByLocation(
           position.latitude, position.longitude);
       setState(() {
