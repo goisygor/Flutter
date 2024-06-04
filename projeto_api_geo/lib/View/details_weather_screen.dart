@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:projeto_api_geo/Controller/weather_controller.dart';
+import 'package:projeto_api_geo/Service/city_db_service.dart';
+
+import '../Model/city_model.dart';
 
 class DetailsWeatherScreen extends StatefulWidget {
   final String city;
   const DetailsWeatherScreen({super.key, required this.city});
+  
 
   @override
   State<DetailsWeatherScreen> createState() => _DetailsWeatherScreenState();
@@ -12,6 +16,7 @@ class DetailsWeatherScreen extends StatefulWidget {
 
 class _DetailsWeatherScreenState extends State<DetailsWeatherScreen> {
   final WeatherController _controller = WeatherController();
+  final CityDataBaseService _dbService = CityDataBaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +32,9 @@ class _DetailsWeatherScreenState extends State<DetailsWeatherScreen> {
                     builder: (context, snapshot) {
                       if (_controller.weatherList.isEmpty) {
                         return const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Erro de Conexão"),
-                            //inserir botão de refresh
+                            CircularProgressIndicator(),
                           ],
                         );
                       } else {
@@ -37,6 +42,7 @@ class _DetailsWeatherScreenState extends State<DetailsWeatherScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(_controller.weatherList.last.name),
                                   //icon favorite

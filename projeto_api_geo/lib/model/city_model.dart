@@ -1,7 +1,7 @@
 class City {
   // atributos
   final String cityName;
-  final bool favoriteCities;
+  final int favoriteCities;
 
   City({required this.cityName, required this.favoriteCities});
   // métodos

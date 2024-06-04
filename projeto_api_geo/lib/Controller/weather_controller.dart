@@ -1,8 +1,6 @@
+import '../Service/weather_service_api.dart';
 
-
-
-import 'package:projeto_api_geo/Service/weather_service_api.dart';
-import 'package:projeto_api_geo/model/weather_model.dart';
+import '../Model/weather_model.dart';
 
 class WeatherController {
   //atributos

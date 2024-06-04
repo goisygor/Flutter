@@ -1,8 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:projeto_api_geo/Controller/weather_controller.dart';
+import 'package:projeto_api_geo/Service/weather_service_api.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 20),
                     _controller.weatherList.isEmpty
                     ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text("Erro de Conexão"),
                           IconButton(
