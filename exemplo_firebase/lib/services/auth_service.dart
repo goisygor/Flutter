@@ -41,4 +41,6 @@ class AuthService {
       print(e.toString());
     }
   }
+
+  registerUsuario(String text, String text2) {}
 }

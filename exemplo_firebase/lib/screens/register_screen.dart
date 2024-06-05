@@ -1,6 +1,7 @@
 import 'package:exemplo_firebase/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -56,8 +57,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   
   Future<User?> _registrarUser() async {
     if(_formKey.currentState!.validate()){
-      if(_passwordController==_confirmedPasswordController){
-        return await _service.registrarUsuario(
+      if(_passwordController.text==_confirmedPasswordController.text){
+        return await _service.registerUsuario(
           _emailController.text, 
           _confirmedPasswordController.text);
           //navegação para págian interna
