@@ -47,14 +47,14 @@ class DefaultFirebaseOptions {
         );
       default:
         throw UnsupportedError(
-          'DefaultFirebaseOptions are not supported for this platform.',
+          'DefaultFirebaseOptions are not supported for this platform.', 
         );
     }
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA0mhGopwi9tUYW2PZ5i5dG4lZvli2O2t4',
-    appId: '1:970247074321:android:dd3d6d14b88ed74d6d77b0',
+    apiKey: '',
+    appId: '',
     messagingSenderId: '970247074321',
     projectId: 'teste-firebase-noite-fc07f',
     storageBucket: 'teste-firebase-noite-fc07f.appspot.com',
