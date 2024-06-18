@@ -56,5 +56,40 @@
       "codigo": "A5",
       "preco": 150
     }
+  ],
+  "audios":[
+    {
+      "id":"1",
+      "title":"The St. Louis Blues",
+      "artist":"W. C. Handy",
+      "url":"http://www.dominiopublico.gov.br/download/som/gu10249.mp3"
+      
+    },
+    {
+      "id":"2",
+      "title":"New York Blues",
+      "artist":"Pietro Frosini",
+      "url":"http://www.dominiopublico.gov.br/download/som/gu10287.mp3"
+     
+    },
+    {
+      "id":"3",
+      "title":"Hino Nacional Brasileiro - Coral",
+      "artist":"Francisco Manuel da Silva",
+      "url":"http://www.dominiopublico.gov.br/download/som/me000001.mp3"
+     
+    },
+    {
+      "id":"4",
+      "title":"El Choclo Tango - Instrumental",
+      "artist":"Manuel Sarrablo ",
+      "url":"http://www.dominiopublico.gov.br/download/som/gu10412.mp3"
+     
+    }
   ]
 }
+
+
+
+
+
