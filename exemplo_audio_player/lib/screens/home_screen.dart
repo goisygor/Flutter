@@ -1,11 +1,9 @@
-import 'package:exemplo_audio_player/models/audio_model.dart';
+import 'package:exemplo_audio_player/screens/audio_player_screen.dart';
 import 'package:exemplo_audio_player/services/audio_service.dart';
 import 'package:flutter/material.dart';
 
-import 'audio_player_screen.dart';
-
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -13,28 +11,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AudioService _service = AudioService();
-  bool _isLoading = true;
-  List<AudioModel> _audioList = [];
+  late Future<void> _audioListFuture;
 
   @override
   void initState() {
     super.initState();
-    _loadAudioList();
+    _audioListFuture = _getAudioList();
   }
 
-  Future<void> _loadAudioList() async {
+  Future<void> _getAudioList() async {
     try {
       await _service.fetchAudio();
-      setState(() {
-        _audioList = _service.list;
-        _isLoading = false;
-      });
+      setState(() {});
     } catch (e) {
       print(e.toString());
-      setState(() {
-        _isLoading = false;
-      });
-      // Tratar erro de fetchAudio, se necessário
     }
   }
 
@@ -42,99 +32,90 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.music_note), // Ícone à esquerda do título
-            SizedBox(width: 8),
-            Text('Audio Player'), // Título
-          ],
-        ),
+        title: const Text('Audio Player'),
         actions: [
           IconButton(
-            icon: Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh),
             onPressed: () {
               setState(() {
-                _isLoading = true;
-                _loadAudioList();
+                _audioListFuture = _getAudioList();
               });
             },
           ),
         ],
       ),
-      body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : _audioList.isEmpty
-              ? Center(
-                  child: Text('Não há músicas'),
-                )
-              : ListView.builder(
-                  itemCount: _audioList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FutureBuilder(
+          future: _audioListFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  'Erro ao carregar áudios: ${snapshot.error}',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            } else if (_service.list.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No Audio Found',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                  ),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: _service.list.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 3,
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.audiotrack,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      title: Text(
+                        _service.list[index].title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Text(_service.list[index].artist),
+                      trailing: Icon(
+                        Icons.play_arrow,
+                        color: Theme.of(context).primaryColor,
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                AudioPlayerScreen(audio: _audioList[index]),
+                            builder: (context) => AudioPlayerScreen(
+                              audioList: _service.list,
+                              initialIndex: index,
+                            ),
                           ),
                         );
                       },
-                      child: Card(
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        _audioList[index].imageurl,
-                                      ),
-                                      fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      _audioList[index].title,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      _audioList[index].artist,
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 }

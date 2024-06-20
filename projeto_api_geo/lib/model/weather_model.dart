@@ -25,4 +25,10 @@ class Weather {
       tempMin:json['main']['temp_min']
     );
   }
+
+  get clouds => null;
+
+  get humidity => null;
+
+  get windSpeed => null;
 }

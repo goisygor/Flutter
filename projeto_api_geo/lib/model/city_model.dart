@@ -1,23 +1,23 @@
 class City {
-  // atributos
   final String cityName;
-  final int favoriteCities;
+  bool isFavorite;
+  final int? id;
 
-  City({required this.cityName, required this.favoriteCities});
-  // métodos
-  // toMap
+  City({required this.cityName, this.isFavorite = false, this.id});
+
   Map<String, dynamic> toMap() {
-    return {'cityname': cityName, 'favoritecities': favoriteCities};
+    return {
+      'id': id,
+      'cityname': cityName,
+      'isfavorite': isFavorite ? 1 : 0,
+    };
   }
 
-  //fromMap
   factory City.fromMap(Map<String, dynamic> map) {
     return City(
+      id: map['id'],
       cityName: map['cityname'],
-      favoriteCities: map['favoritecities'],
+      isFavorite: map['isfavorite'] == 1,
     );
-
-    
   }
-
 }

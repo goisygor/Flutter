@@ -70,4 +70,6 @@ class CityDataBaseService {
       
     }
   }
+
+  getCityById(int id) {}
 }
